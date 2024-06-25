@@ -8,6 +8,15 @@ def birth():
     new_df.to_csv('birth_death.csv', index=False)
     new_df.to_excel('birth_death.xlsx', index=False)
 
+def population():
+    df = pd.read_csv('data/population.csv')
+
+    new_df = df[['Location', 'Time', 'Sex', 'Age', 'IndicatorName', 'Value']]
+    new_df.columns = ['kraj', 'rok', 'płeć', 'wiek', 'Indykator', 'wartość']
+
+    new_df.to_csv('population.csv', index=False)
+    new_df.to_excel('population.xlsx', index=False)
+
 def married():
     df = pd.read_csv('data/married.csv')
     new_rows = []
@@ -35,4 +44,4 @@ def married():
     final_df.to_csv('married.csv', index=False)
     final_df.to_excel('married.xlsx', index=False)
 
-birth()
+population()
