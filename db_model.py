@@ -62,14 +62,6 @@ class Marriage(Base):
     id_age = Column(Integer, ForeignKey('ages.id_age'))
     id_country = Column(Integer, ForeignKey('countries.id_country'))
 
-class CountryData(Base):
-    __tablename__ = 'country_data'
-    id_data = Column(Integer, primary_key=True)
-    id_population = Column(Integer, ForeignKey('live_population.id_data'))
-    id_deaths = Column(Integer, ForeignKey('deaths.id_data'))
-    id_births = Column(Integer, ForeignKey('births.id_data'))
-    id_marriages = Column(Integer, ForeignKey('marriages.id_data'))
-
 
 if not database_exists(engine.url):
     create_database(engine.url)
