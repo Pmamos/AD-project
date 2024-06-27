@@ -19,7 +19,6 @@ session = Session()
 countries = session.query(Country).all()
 ages = session.query(Age).all()
 
-# Fetch default values
 default_country = session.query(Country).filter_by(country='Brazil').first()
 
 # Convert to DataFrame
@@ -42,7 +41,7 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 
-# Define the content for Dashboard 1 (the provided dashboard code)
+# Define the content for Dashboard 1 
 dashboard1_layout = html.Div([
     html.Div([
         dcc.Dropdown(
@@ -112,8 +111,8 @@ def update_graph(selected_countries, selected_sex, selected_age):
         query = query.filter(Death.sex == selected_sex)
     else:
         query = query.filter(Death.sex == 'Both sexes')
-    
-    deaths = query.limit(50000).all()  # Limiting the number of records fetched
+      
+    deaths = query.all()
     
     data = []
     for death, year, country, age in deaths:
