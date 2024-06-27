@@ -4,7 +4,7 @@ import plotly.express as px
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_model import Base, Year, Age, Death, Continent, Country, db_string  # assuming models.py contains your ORM classes
+from db_model import Base, Year, Age, Death, Continent, Country, db_string  
 
 # Create a Dash application
 app = dash.Dash(__name__, suppress_callback_exceptions=True)
