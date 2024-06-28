@@ -365,27 +365,34 @@ def update_graph(selected_countries):
     if selected_countries:
         query = query.filter(Population.id_country.in_(selected_countries))
 
-
+    query = query.filter(Population.id_data.between(196, 2951))
     populations = query.all()
 
     data = []
+    timestamp = 0
     for population, country in populations:
         data.append({
-            'id_data': population.id_data,
+            'timestamp': timestamp,
             'country': country.country,
             'measurement': population.measurement
         })
+        timestamp += 1
 
     df = pd.DataFrame(data)
     if df.empty:
         return px.scatter(title='No data available for the selected filters')
 
     # Group data by year, country, and sex to avoid duplicate entries
-    df_grouped = df.groupby(['country', 'id_data']).agg({'measurement': 'sum'}).reset_index()
+    df_grouped = df.groupby(['country', 'timestamp']).agg({'measurement': 'sum'}).reset_index()
 
-    fig = px.line(df_grouped, x='id_data', y='measurement', color='country', markers=True,
+    fig = px.line(df_grouped, x='timestamp', y='measurement', color='country', markers=True,
                   line_group='country', hover_name='country', title='Population by Country')
     fig.update_traces(mode='lines+markers')
+    fig.update_layout(
+        xaxis=dict(
+            title='Time (minutes)',
+            range=[0, 148],
+        ))
     return fig
 
 
