@@ -55,11 +55,11 @@ age_df = pd.DataFrame([(a.id_age, a.age) for a in ages], columns=['id_age', 'age
 age_df['age'] = pd.to_numeric(age_df['age'], errors='coerce')
 # Define the top menu layout
 menu_layout = html.Div([
-    dcc.Link('Deaths by country', href='/dashboard1'),
-    dcc.Link('Births by country', href='/dashboard2'),
-    dcc.Link('Marriages by country', href='/dashboard3'),
-    dcc.Link('Population by country', href='/dashboard4'),
-    dcc.Link('Map dashboard', href='/dashboard5'),
+    dcc.Link('Deaths by country', href='/deaths'),
+    dcc.Link('Births by country', href='/births'),
+    dcc.Link('Marriages by country', href='/marriages'),
+    dcc.Link('Population by country', href='/population'),
+    dcc.Link('Map dashboard', href='/maps'),
 ], style={'display': 'flex', 'gap': '20px', 'justify-content': 'center', 'padding': '20px', 'background': '#f0f0f0'})
 
 # Define the layout of the app
@@ -347,9 +347,7 @@ def update_graph(selected_countries, min_age, max_age):
     # Group data by year, country, and sex to avoid duplicate entries
     df_grouped = df.groupby(['year', 'country']).agg({'measurement': 'sum'}).reset_index()
 
-    fig = px.line(df_grouped, x='year', y='measurement', color='country', markers=True,
-                  line_group='country', hover_name='country', title='Marriages by Country')
-    fig.update_traces(mode='lines+markers')
+    fig = px.bar(df_grouped, x='year', y='measurement', color='country', hover_name='country', title='Marriages by Country', barmode = 'group')
     fig.update_layout(
         xaxis=dict(dtick=1, range=[1970, 2024])
     )
@@ -459,15 +457,15 @@ app.layout = html.Div([
     [Input('url', 'pathname')]
 )
 def display_page(pathname):
-    if pathname == '/' or pathname == '/dashboard1':
+    if pathname == '/' or pathname == '/deaths':
         return dashboard1_layout
-    elif pathname == '/dashboard2':
+    elif pathname == '/births':
         return dashboard2_layout
-    elif pathname == '/dashboard3':
+    elif pathname == '/marriages':
         return dashboard3_layout
-    elif pathname == '/dashboard4':
+    elif pathname == '/population':
         return dashboard4_layout
-    elif pathname == '/dashboard5':
+    elif pathname == '/maps':
         return dashboard5_layout
     else:
         return html.Div([
